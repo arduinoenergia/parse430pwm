@@ -18,7 +18,8 @@ public:
 	virtual ~pwm();
 	/// methods
 	void setup(uint32_t freq, uint16_t tPWM);
-	void pinSetting(uint8_t pin, int val);
+	void pinSetting(uint8_t pin);
+	void pinValue(uint8_t pin, uint8_t val, uint16_t scale);
 
 	/// proprties
 	uint16_t T_PWM;
