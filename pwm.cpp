@@ -100,3 +100,24 @@ void pwm::pinValue(uint8_t pin, uint8_t val, uint16_t scale){
 
     }
 }
+
+/// value used an integer angolar value
+void pwm::pinValue(uint8_t pin, int8_t angle){
+
+	int16_t valore;
+	float fVal;
+	/// conversion from angle to PWM value
+	if (angle > 90)
+		angle = 90;
+	else if(angle < -90)
+		angle = -90;
+
+	/// granularity is 0.1%
+	/// a PWM between 5 to 10% is split in 150 parts
+	fVal = angle / 90 * 2.5 + 7.5;
+	fVal *= 30;
+	valore = (int16_t) fVal;
+	pinValue(pin, valore, 30);
+	Serial.print("valore PWM: ");
+	Serial.println(valore);
+}

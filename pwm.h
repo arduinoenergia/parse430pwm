@@ -19,8 +19,12 @@ public:
 	/// methods
 	void setup(uint32_t freq, uint16_t tPWM);
 	void pinSetting(uint8_t pin);
+	/// value in term of pwm with a scale factor
 	void pinValue(uint8_t pin, uint8_t val, uint16_t scale);
+	/// value used an integer angolar value
+	void pinValue(uint8_t pin, int8_t angle);
 
+private:
 	/// proprties
 	uint16_t T_PWM;
 };

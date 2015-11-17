@@ -16,13 +16,25 @@ void setup() {
 	SERVO.pinSetting(P1_3);
 	SERVO.pinSetting(P1_4);
 	SERVO.pinSetting(P1_5);
-	/// value with 0.1 % granularity
-	SERVO.pinValue(P1_2, 50, 10);
+	/// value with 0.1 % granularity and in central position
+	SERVO.pinValue(P1_2, 75, 10);
+	SERVO.pinValue(P1_2, 75, 10);
+	SERVO.pinValue(P1_2, 75, 10);
+	SERVO.pinValue(P1_2, 75, 10);
+	/// set up serial communication
+	Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly: 
-
+  // demo of servo motion
+	SERVO.pinValue(P1_2, 0);
+	SERVO.pinValue(P1_3, 0);
+	SERVO.pinValue(P1_4, 0);
+	SERVO.pinValue(P1_5, 0);
+	delay(500);
+	SERVO.pinValue(P1_5, 5);
+	SERVO.pinValue(P1_4, -15);
+	delay(1000);
 }
 
 
