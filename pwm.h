@@ -17,7 +17,7 @@ public:
 	pwm();
 	virtual ~pwm();
 	/// methods
-	void setup(uint32_t freq, uint16_t tPWM);
+	void setup(uint32_t freq, uint16_t fPWM);
 	void pinSetting(uint8_t pin);
 	/// value in term of pwm with a scale factor
 	void pinValue(uint8_t pin, uint8_t val, uint16_t scale);
@@ -26,7 +26,7 @@ public:
 
 private:
 	/// proprties
-	uint16_t T_PWM;
+	uint16_t F_PWM;
 };
 
 #endif /* PWM_H_ */

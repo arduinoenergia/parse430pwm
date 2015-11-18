@@ -11,7 +11,7 @@
 
 pwm::pwm() {
 	// TODO Auto-generated constructor stub
-	T_PWM = 0;
+	F_PWM = 0;
 
 }
 
@@ -19,7 +19,7 @@ pwm::~pwm() {
 	// TODO Auto-generated destructor stub
 }
 
-void pwm::setup(uint32_t freq, uint16_t tPwm){
+void pwm::setup(uint32_t freq, uint16_t fPwm){
 	/// used pins are from P1.2 to P1.4
 //	P1DIR |= BIT1 + BIT2 + BIT3 + BIT4;
 //	P2SEL |= BIT1 + BIT2 + BIT3 + BIT4;;
@@ -33,7 +33,7 @@ void pwm::setup(uint32_t freq, uint16_t tPwm){
 		TA0CTL 	= TASSEL_2 + MC_1 + TACLR; 	/// si usa il clock di sistema fdco = 24.576MHz
 	/// la frequenza è divisa per 8 dal coefficiente ID_3. Quindi F1 = fdco/8 = 3.072MHz
 	/// F1 / T_PWM = 3.072000 / 8000 = 384; numero di conteggi da scrivere in TA2CCR0
-	TA0CCR0 = (freq >> 3) / tPwm;
+	TA0CCR0 = (freq >> 3) / fPwm;
 
 	/// PWM mode
 	TA0CCTL1 = OUTMOD_7;
@@ -51,7 +51,7 @@ void pwm::setup(uint32_t freq, uint16_t tPwm){
 	//TA0CCR5 = 0;
 	//TA0CCR6 = 0;
 	// set up PWM period
-	T_PWM = tPwm;
+	F_PWM = fPwm;
 #endif
 }
 
@@ -68,7 +68,6 @@ void pwm::pinSetting(uint8_t pin){
     /// set pin in output mode
     pinMode(pin, OUTPUT);
 
-    TA0CCR0 = T_PWM;          		 		// PWM Period
 }
 
 void pwm::pinValue(uint8_t pin, uint8_t val, uint16_t scale){
@@ -77,25 +76,25 @@ void pwm::pinValue(uint8_t pin, uint8_t val, uint16_t scale){
 	case T0A1:                              // TimerA0 / CCR1
 
 	 TA0CCTL1 = OUTMOD_7;            		// reset/set
-	 TA0CCR1 = T_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR1 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
 	 break;
 
 	case T0A2:                              // TimerA0 / CCR1
 
 	 TA0CCTL2 = OUTMOD_7;            		// reset/set
-	 TA0CCR2 = T_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR2 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
 	 break;
 
 	case T0A3:                              // TimerA0 / CCR1
 
 	 TA0CCTL3 = OUTMOD_7;            		// reset/set
-	 TA0CCR3 = T_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR3 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
 	 break;
 
 	case T0A4:                              // TimerA0 / CCR1
 
 	 TA0CCTL4 = OUTMOD_7;            		// reset/set
-	 TA0CCR4 = T_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR4 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
 	 break;
 
     }
