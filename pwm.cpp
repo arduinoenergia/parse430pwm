@@ -51,7 +51,7 @@ void pwm::setup(uint32_t freq, uint16_t fPwm){
 	//TA0CCR5 = 0;
 	//TA0CCR6 = 0;
 	// set up PWM period
-	F_PWM = fPwm;
+	F_PWM = TA0CCR0;
 #endif
 }
 
@@ -63,10 +63,11 @@ void pwm::pinSetting(uint8_t pin){
 
     if (port == NOT_A_PORT) return; // pin on timer?
 
+    /// set pin in output mode BEFORE alternate pin function
+    pinMode(pin, OUTPUT);
+
     sel = portSelRegister(port); // get the port function select register address
     *sel |= bit;                 // set bit in pin function select register
-    /// set pin in output mode
-    pinMode(pin, OUTPUT);
 
 }
 
@@ -104,7 +105,7 @@ void pwm::pinValue(uint8_t pin, uint8_t val, uint16_t scale){
 void pwm::pinValue(uint8_t pin, int8_t angle){
 
 	int16_t valore;
-	float fVal;
+	volatile float fVal;
 	/// conversion from angle to PWM value
 	if (angle > 90)
 		angle = 90;
@@ -113,7 +114,7 @@ void pwm::pinValue(uint8_t pin, int8_t angle){
 
 	/// granularity is 0.1%
 	/// a PWM between 5 to 10% is split in 150 parts
-	fVal = angle / 90 * 2.5 + 7.5;
+	fVal = (float)angle / 90.0 * 2.5 + 7.5;
 	fVal *= 30;
 	valore = (int16_t) fVal;
 	pinValue(pin, valore, 30);
