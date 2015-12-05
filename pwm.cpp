@@ -71,38 +71,81 @@ void pwm::pinSetting(uint8_t pin){
 
 }
 
+void pwm::pinValue(uint8_t pin, float value){
+
+	unsigned int valore;
+
+	valore = (unsigned int) value * 0.01 * F_PWM;
+
+	switch(digitalPinToTimer(pin)) {                // which timer and CCR?
+		//case: T0A0                            // CCR0 used as period register
+		case T0A1:                              // TimerA0 / CCR1
+
+		 TA0CCTL1 = OUTMOD_7;            		// reset/set
+		 TA0CCR1 = valore;		 			// PWM duty cycle
+		 break;
+
+		case T0A2:                              // TimerA0 / CCR1
+
+		 TA0CCTL2 = OUTMOD_7;            		// reset/set
+		 TA0CCR2 = valore;		 			// PWM duty cycle
+		 break;
+
+		case T0A3:                              // TimerA0 / CCR1
+
+		 TA0CCTL3 = OUTMOD_7;            		// reset/set
+		 TA0CCR3 = valore; 					// PWM duty cycle
+		 break;
+
+		case T0A4:                              // TimerA0 / CCR1
+
+		 TA0CCTL4 = OUTMOD_7;            		// reset/set
+		 TA0CCR4 = valore; 					// PWM duty cycle
+		 break;
+
+	}
+}
+
+
 void pwm::pinValue(uint8_t pin, uint8_t val, uint16_t scale){
+
+	float valTmp;
+	unsigned int valIntero;
+
+	valTmp = (float) val / scale * 0.01 * F_PWM;
+	valIntero = (unsigned int) valTmp;
+
     switch(digitalPinToTimer(pin)) {                // which timer and CCR?
 	//case: T0A0                            // CCR0 used as period register
 	case T0A1:                              // TimerA0 / CCR1
 
 	 TA0CCTL1 = OUTMOD_7;            		// reset/set
-	 TA0CCR1 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR1 = valIntero; 			// PWM duty cycle
 	 break;
 
 	case T0A2:                              // TimerA0 / CCR1
 
 	 TA0CCTL2 = OUTMOD_7;            		// reset/set
-	 TA0CCR2 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR2 = valIntero; 			// PWM duty cycle
 	 break;
 
 	case T0A3:                              // TimerA0 / CCR1
 
 	 TA0CCTL3 = OUTMOD_7;            		// reset/set
-	 TA0CCR3 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR3 = valIntero; 			// PWM duty cycle
 	 break;
 
 	case T0A4:                              // TimerA0 / CCR1
 
 	 TA0CCTL4 = OUTMOD_7;            		// reset/set
-	 TA0CCR4 = F_PWM / (100 * scale) * val; 			// PWM duty cycle
+	 TA0CCR4 = valIntero; 			// PWM duty cycle
 	 break;
 
     }
 }
 
 /// value used an integer angolar value
-void pwm::pinValue(uint8_t pin, int8_t angle){
+void pwm::pinValue(uint8_t pin, int angle){
 
 	int16_t valore;
 	volatile float fVal;
